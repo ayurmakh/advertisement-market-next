@@ -1,0 +1,8 @@
+.header {
+    display: flex;
+    gap: var(--gap);
+}
+
+.link[aria-current="page"] {
+    text-decoration: underline;
+}

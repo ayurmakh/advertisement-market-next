@@ -1,0 +1,20 @@
+.registerForm {
+    margin-top: var(--gap);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+}
+
+.formFields {
+    display: grid;
+    grid-template-columns: max-content 150px auto;
+    gap: var(--gap-sm);
+}
+
+.fieldError {
+    color: crimson;
+}
+
+.submitButton {
+    width: 70px;
+}
