@@ -1,5 +1,5 @@
-import LoginForm from './components/login-form/login-form';
-import { loginAction } from './login-action/login-action';
+import LoginForm from './components/login-form';
+import { loginAction } from './login-action';
 
 export default function LoginPage() {
     return (

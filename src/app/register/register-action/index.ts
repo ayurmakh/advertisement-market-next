@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { RegisterAction, RegisterState } from '@/app/register/types';
-import { registerUser } from '@/app/register/register-action/db';
+import { createUser } from '@/app/register/register-action/db';
 import { validate } from '@/app/register/register-action/validation';
 
 const UNIQUE_VIOLATION_CODE = '23505';
@@ -40,7 +40,7 @@ export const registerAction: RegisterAction = async (_previousState, actionPaylo
     }
 
     try {
-        await registerUser(credentials);
+        await createUser(credentials);
     } catch(error) {
         return {
             success: false,
