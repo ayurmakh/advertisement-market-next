@@ -6,3 +6,11 @@
 .link[aria-current="page"] {
     text-decoration: underline;
 }
+
+.logoutButton {
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

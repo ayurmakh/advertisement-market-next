@@ -2,8 +2,9 @@
 
 import { redirect } from 'next/navigation';
 import { LoginAction, LoginState } from '../types';
-import { findUserByCredentials } from './db';
+import { findUserByCredentialsDb } from '@/db/users';
 import { createSession } from '@/lib/session';
+import { User, UserLogin } from '@/types/user';
 
 // const mapError = (): LoginState['fields'] => {
 //     return {
@@ -22,20 +23,20 @@ const getUnexpectedErrorResult = (values: LoginState['values']) => ({
 });
 
 export const loginAction: LoginAction = async (_previousState, actionPayload): Promise<LoginState> => {
-    const credentials = {
+    const credentials: UserLogin = {
         email: (actionPayload.get('email') as string) ?? '',
         password: (actionPayload.get('password') as string) ?? '',
     }
 
-    let userId: number | undefined;
+    let user: User | undefined;
 
     try {
-        userId = await findUserByCredentials(credentials);
+        user = await findUserByCredentialsDb(credentials);
     } catch {
         return getUnexpectedErrorResult(credentials);
     }
 
-    if (!userId) {
+    if (!user) {
         return {
             success: false,
             fields: {
@@ -48,7 +49,7 @@ export const loginAction: LoginAction = async (_previousState, actionPayload): P
     }
 
     try {
-        await createSession(userId);
+        await createSession(user.id);
     } catch {
         return getUnexpectedErrorResult(credentials);
     }

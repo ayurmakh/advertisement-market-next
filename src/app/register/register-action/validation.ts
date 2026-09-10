@@ -1,6 +1,7 @@
-import { RegisterState, UserCredentials } from '@/app/register/types';
+import { RegisterState } from '@/app/register/types';
+import { UserRegister } from '@/types/user';
 
-export const validate = ({ email, password }: UserCredentials): RegisterState['fields'] => {
+export const validate = ({ email, password }: UserRegister): RegisterState['fields'] => {
     const fields: RegisterState['fields'] = {};
 
     if (!email.includes('@')) {

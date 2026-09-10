@@ -3,48 +3,42 @@
 import styles from './header.module.css'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import useHeader from './useHeader';
+import { User } from '@/types/user';
 
-type Link = {
-    href: string;
-    text: string;
+type HeaderProps = {
+    user: User | null;
 }
 
-const links: Link[] = [
-    {
-        href: '/',
-        text: 'Home',
-    },
-    {
-        href: '/register',
-        text: 'Register',
-    },
-    {
-        href: '/login',
-        text: 'Login',
-    },
-];
-
-export default function Header() {
+export default function Header({ user }: HeaderProps) {
     const pathname = usePathname() ?? '';
+    const { links } = useHeader(user);
 
     return (
         <nav className={styles.header}>
-            {links.map(({ href, text }) => {
+            {links.map(({ href, text, onClick }) => {
                 const isCurrent = href === '/'
                     ? pathname === '/'
                     : pathname === href || pathname.startsWith(`${href}/`);
 
                 return (
-                    <Link
-                        className={styles.link}
-                        href={href}
-                        key={href}
-                        aria-current={isCurrent && 'page'}
-                    >
-                        {text}
-                    </Link>
+                    href
+                        ? <Link
+                            className={styles.link}
+                            href={href}
+                            key={href}
+                            aria-current={isCurrent && 'page'}
+                        >
+                            {text}
+                        </Link>
+                        : <span
+                            className={styles.logoutButton}
+                            key={text}
+                            onClick={onClick}
+                        >{text}</span>
                 );
             })}
+            {user?.email}
         </nav>
     );
 }

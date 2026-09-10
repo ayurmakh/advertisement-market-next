@@ -12,8 +12,3 @@ export type LoginState = {
 }
 
 export type LoginAction = (previousState: LoginState, actionPayload: FormData) => Promise<LoginState>;
-
-export type UserCredentials = {
-    email: string;
-    password: string;
-}

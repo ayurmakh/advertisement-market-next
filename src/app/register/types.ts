@@ -12,8 +12,3 @@ export type RegisterState = {
 }
 
 export type RegisterAction = (previousState: RegisterState, actionPayload: FormData) => Promise<RegisterState>;
-
-export type UserCredentials = {
-    email: string;
-    password: string;
-}

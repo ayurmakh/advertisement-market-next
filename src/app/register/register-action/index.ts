@@ -2,8 +2,9 @@
 
 import { redirect } from 'next/navigation';
 import { RegisterAction, RegisterState } from '@/app/register/types';
-import { createUser } from '@/app/register/register-action/db';
+import { createUserDb } from '@/db/users';
 import { validate } from '@/app/register/register-action/validation';
+import { UserRegister } from '@/types/user';
 
 const UNIQUE_VIOLATION_CODE = '23505';
 
@@ -22,7 +23,7 @@ const mapError = (error: DbError): RegisterState['fields'] => {
 };
 
 export const registerAction: RegisterAction = async (_previousState, actionPayload): Promise<RegisterState> => {
-    const credentials = {
+    const credentials: UserRegister = {
         email: (actionPayload.get('email') as string) ?? '',
         password: (actionPayload.get('password') as string) ?? '',
     }
@@ -40,8 +41,9 @@ export const registerAction: RegisterAction = async (_previousState, actionPaylo
     }
 
     try {
-        await createUser(credentials);
+        await createUserDb(credentials);
     } catch(error) {
+        console.log(`Register error: ${error}`)
         return {
             success: false,
             fields: {
