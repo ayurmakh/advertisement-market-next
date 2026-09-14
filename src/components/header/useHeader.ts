@@ -1,10 +1,9 @@
 import { User } from "@/types/user";
-import { logout } from './logout';
 
 type Link = {
-    href?: string;
+    href: string;
     text: string;
-    onClick?: () => Promise<void>;
+    isLastOnLeft?: boolean;
 }
 
 export default function useHeader(user: User | null) {
@@ -15,11 +14,13 @@ export default function useHeader(user: User | null) {
             href: '/',
             text: 'Home',
         },
+        {
+            href: '/goods',
+            text: 'Goods',
+            isLastOnLeft: true,
+        },
         ...(isLoggedIn
-            ? [{
-                text: 'Logout',
-                onClick: logout,
-            }]
+            ? []
             : [
                 {
                     href: '/login',

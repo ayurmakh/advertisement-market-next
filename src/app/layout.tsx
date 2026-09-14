@@ -1,6 +1,6 @@
 import "./globals.css";
 import styles from './layout.module.css';
-import Header from './components/header/header';
+import Header from '@/components/header';
 import getLoggedInUser from '@/server-actions/getLoggedInUser';
 
 export default async function RootLayout({

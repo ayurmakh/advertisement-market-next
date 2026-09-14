@@ -1,8 +1,5 @@
 .registerForm {
     margin-top: var(--gap);
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-sm);
 }
 
 .formFields {
@@ -16,5 +13,12 @@
 }
 
 .submitButton {
-    width: 70px;
+    width: 90px;
+    margin-top: var(--gap-sm);
+}
+
+.gridField {
+    display: grid !important;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
 }

@@ -20,7 +20,7 @@ export const createSessionDb = async ({ id, userId, expiresAt }: Session) => {
     const queryResult = await pool.query<{ id: Session['id'] }>(text, values);
 
     if (!queryResult.rows[0]) {
-        throw new Error('Session wasn\'t created');
+        throw new Error('Internal error');
     }
 
     return queryResult.rows[0].id;

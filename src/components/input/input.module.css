@@ -1,0 +1,8 @@
+.inputWrapper {
+    display: flex;
+    gap: var(--gap-sm);
+}
+
+.error {
+    color: crimson;
+}

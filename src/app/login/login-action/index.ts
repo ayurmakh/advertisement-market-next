@@ -5,6 +5,7 @@ import { LoginAction, LoginState } from '../types';
 import { findUserByCredentialsDb } from '@/db/users';
 import { createSession } from '@/lib/session';
 import { User, UserLogin } from '@/types/user';
+import { validate } from './validation';
 
 // const mapError = (): LoginState['fields'] => {
 //     return {
@@ -28,7 +29,19 @@ export const loginAction: LoginAction = async (_previousState, actionPayload): P
         password: (actionPayload.get('password') as string) ?? '',
     }
 
-    let user: User | undefined;
+    const formErrors = validate(credentials);
+
+    if (formErrors) {
+        return {
+            success: false,
+            values: {
+                ...credentials,
+            },
+            fields: formErrors,
+        };
+    }
+
+    let user: User | null = null;
 
     try {
         user = await findUserByCredentialsDb(credentials);
