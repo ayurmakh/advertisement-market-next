@@ -1,4 +1,4 @@
-import { RegisterState } from '@/app/register/types';
+import { RegisterState } from '../types';
 import { UserRegister } from '@/types/user';
 
 export const validate = ({ email, password }: UserRegister): RegisterState['fields'] => {

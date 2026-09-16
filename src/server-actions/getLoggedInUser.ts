@@ -1,27 +1,18 @@
 'use server'
 
-import { findSessionByIdDb } from "@/db/sessions";
 import { findUserByIdDb } from "@/db/users";
-import { COOKIE_NAME } from "@/lib/session";
+import { getUserId } from "@/lib/session";
 import { User } from "@/types/user";
-import { cookies } from "next/headers";
 
 export default async function getLoggedInUser(): Promise<User | null> {
-    const cookieStore = await cookies();
-    const cookie = cookieStore.get(COOKIE_NAME)?.value;
-
-    if (!cookie) {
-        return null;
-    }
-
     try {
-        const session = await findSessionByIdDb(cookie);
+        const userId = await getUserId();
 
-        if (!session) {
+        if (!userId) {
             return null;
         }
 
-        const user = await findUserByIdDb(session.userId);
+        const user = await findUserByIdDb(userId);
 
         return user ?? null;
     } catch {

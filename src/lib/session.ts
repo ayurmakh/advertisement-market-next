@@ -10,11 +10,7 @@ export const createSession = async (userId: Session['userId']) => {
     const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
     const id = generateUUID();
 
-    try {
-        await createSessionDb({ id, userId, expiresAt });
-    } catch (error) {
-        throw error;
-    }
+    await createSessionDb({ id, userId, expiresAt });
 
     const cookieStore = await cookies();
 
@@ -42,4 +38,9 @@ export const getSession = async () => {
     } catch {
         return null;
     }
+};
+
+export const getUserId = async (): Promise<Session['userId'] | null> => {
+    const session = await getSession();
+    return session?.userId ?? null;
 };

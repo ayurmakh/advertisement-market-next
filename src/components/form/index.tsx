@@ -2,31 +2,22 @@ import { useActionState } from 'react';
 import Button from '../button';
 import Input, { InputProps, UiElementInput } from '../input';
 import styles from './form.module.css';
+import Textarea, { TextareaProps, UiElementTextarea } from '../textarea';
+import { FormAction, FormActionState } from '@/types/ui';
 
-type UiElement = UiElementInput;
+export type UiElement = UiElementInput | UiElementTextarea;
 
-type FormActionState = {
-    success: boolean;
-    fields?: Record<string, string>;
-    values?: Record<string, string>;
-};
-
-type SubmitAction = (
-    previousState: FormActionState,
-    actionPayload: FormData,
-) => Promise<FormActionState>;
-
-type FormProps = {
+type FormProps<TState extends FormActionState> = {
     elements: UiElement[];
-    submitAction: SubmitAction;
-    initialState: FormActionState;
+    formAction: FormAction<TState>;
+    initialState: Awaited<TState>;
 };
 
-export default function Form({ elements, submitAction, initialState }: FormProps) {
-    const [state, formAction, isPending] = useActionState(submitAction, initialState);
+export default function Form<TState extends FormActionState>({ elements, formAction, initialState }: FormProps<TState>) {
+    const [state, action, isPending] = useActionState<TState, FormData>(formAction, initialState);
 
     return (
-        <form className={styles.form} action={formAction}>
+        <form className={styles.form} action={action}>
             <div className={styles.formFields}>
                 {elements.map((element) => {
                     switch (element.uiType) {
@@ -34,11 +25,22 @@ export default function Form({ elements, submitAction, initialState }: FormProps
                             const inputProps: InputProps = {
                                 ...element,
                                 additionalClasses: [...(element.additionalClasses ?? []), styles.gridField],
-                                defaultValue: state.values?.[element.name] ?? '',
+                                defaultValue: String(state.values?.[element.name] ?? ''), // TODO: do type coersion
                                 error: isPending ? '' : state.fields?.[element.name],
                             };
 
                             return <Input key={element.name} {...inputProps} />;
+                        }
+                        
+                        case 'textarea': {
+                            const inputProps: TextareaProps = {
+                                ...element,
+                                additionalClasses: [...(element.additionalClasses ?? []), styles.gridField],
+                                defaultValue: String(state.values?.[element.name] ?? ''), // TODO: do type coersion
+                                error: isPending ? '' : state.fields?.[element.name],
+                            };
+
+                            return <Textarea key={element.name} {...inputProps} />;
                         }
                     }
                 })}

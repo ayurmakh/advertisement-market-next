@@ -1,27 +1,28 @@
 'use client';
 
-import { RegisterAction, RegisterState } from '../../types';
-import Form from '@/components/form';
+import { RegisterState } from '../../types';
+import Form, { UiElement } from '@/components/form';
 import { UI_TYPE } from '@/components/form/ui-type';
+import { FormAction } from '@/types/ui';
 
 const initialState: RegisterState = {
     success: false,
 };
 
 type RegisterFormProps = {
-    registerAction: RegisterAction,
+    formAction: FormAction<RegisterState>,
 }
 
-const elements = [
+const elements: UiElement[] = [
     { uiType: UI_TYPE.input, type: 'text', name: 'email', label: 'Email' },
     { uiType: UI_TYPE.input, type: 'password', name: 'password', label: 'Password' },
 ];
 
-export default function RegisterForm({ registerAction }: RegisterFormProps) {
+export default function RegisterForm({ formAction }: RegisterFormProps) {
     return (
         <Form
             elements={elements}
-            submitAction={registerAction}
+            formAction={formAction}
             initialState={initialState}
         />
     );

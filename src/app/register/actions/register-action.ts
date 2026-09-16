@@ -1,10 +1,12 @@
 'use server'
 
 import { redirect } from 'next/navigation';
-import { RegisterAction, RegisterState } from '@/app/register/types';
+import { RegisterState } from '../types';
 import { createUserDb } from '@/db/users';
-import { validate } from '@/app/register/register-action/validation';
+import { validate } from '../lib/validation';
 import { UserRegister } from '@/types/user';
+import { FormAction } from '@/types/ui';
+import { getFormField } from '@/helpers/getFormField';
 
 const UNIQUE_VIOLATION_CODE = '23505';
 
@@ -22,10 +24,10 @@ const mapError = (error: DbError): RegisterState['fields'] => {
     }
 };
 
-export const registerAction: RegisterAction = async (_previousState, actionPayload): Promise<RegisterState> => {
+export const registerAction: FormAction<RegisterState> = async (_previousState, actionPayload) => {
     const credentials: UserRegister = {
-        email: (actionPayload.get('email') as string) ?? '',
-        password: (actionPayload.get('password') as string) ?? '',
+        email: getFormField(actionPayload, 'email'),
+        password: getFormField(actionPayload, 'password'),
     }
 
     const validationErrors = validate(credentials);
