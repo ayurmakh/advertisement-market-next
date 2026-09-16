@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { generateUUID } from './uuid';
 import { createSessionDb, findSessionByIdDb } from '@/db/sessions';
 import { Session } from '@/types/session';
+import { User } from '@/types/user';
 
 export const SESSION_TTL_MS  = 24 * 60 * 60 * 1000;
 export const COOKIE_NAME = 'session_id';
@@ -40,7 +41,7 @@ export const getSession = async () => {
     }
 };
 
-export const getUserId = async (): Promise<Session['userId'] | null> => {
+export const getUserId = async (): Promise<User['id'] | null> => {
     const session = await getSession();
     return session?.userId ?? null;
 };

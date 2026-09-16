@@ -21,11 +21,12 @@ export default function Form<TState extends FormActionState>({ elements, formAct
             <div className={styles.formFields}>
                 {elements.map((element) => {
                     switch (element.uiType) {
-                        case 'input': {
+                        case 'input':
+                        case 'inputNumber': {
                             const inputProps: InputProps = {
                                 ...element,
                                 additionalClasses: [...(element.additionalClasses ?? []), styles.gridField],
-                                defaultValue: String(state.values?.[element.name] ?? ''), // TODO: do type coersion
+                                defaultValue: state.values?.[element.name] ?? '',
                                 error: isPending ? '' : state.fields?.[element.name],
                             };
 
@@ -36,7 +37,7 @@ export default function Form<TState extends FormActionState>({ elements, formAct
                             const inputProps: TextareaProps = {
                                 ...element,
                                 additionalClasses: [...(element.additionalClasses ?? []), styles.gridField],
-                                defaultValue: String(state.values?.[element.name] ?? ''), // TODO: do type coersion
+                                defaultValue: state.values?.[element.name] ?? '',
                                 error: isPending ? '' : state.fields?.[element.name],
                             };
 

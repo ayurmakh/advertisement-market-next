@@ -8,7 +8,7 @@ import { User, UserLogin } from '@/types/user';
 import { validate } from '../lib/validation';
 import { FormAction } from '@/types/ui';
 import { getFormField } from '@/helpers/getFormField';
-import { getUnexpectedErrorResult } from '@/helpers/getUnexpectedErrorResult';
+import { getUnexpectedErrorResult } from '@/helpers/getErrorResult';
 
 export const loginAction: FormAction<LoginState> = async (_previousState, actionPayload) => {
     const credentials: UserLogin = {

@@ -1,0 +1,1 @@
+export const FIELD_IS_MANDATORY = 'The field is mandatory';

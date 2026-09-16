@@ -9,10 +9,12 @@ export type InputProps = {
     value?: string;
     error?: string;
     additionalClasses?: string[];
+    min?: string;
+    step?: string;
 };
 
 export type UiElementInput = Omit<InputProps & {
-    uiType: typeof UI_TYPE.input;
+    uiType: typeof UI_TYPE.input | typeof UI_TYPE.inputNumber;
 }, 'defaultValue' | 'error'>;
 
 export default function Input({
@@ -23,6 +25,8 @@ export default function Input({
     value,
     error,
     additionalClasses,
+    min,
+    step
 }: InputProps) {
     return (
         <div className={`${styles.inputWrapper} ${(additionalClasses ?? []).join(' ')}`}>
@@ -33,6 +37,8 @@ export default function Input({
                 name={name}
                 value={value}
                 defaultValue={defaultValue}
+                min={min}
+                step={step}
             />
             <span className={styles.error}>{error}</span>
         </div>

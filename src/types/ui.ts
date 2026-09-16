@@ -1,5 +1,5 @@
 type FormFields = Record<string, string>;
-type FormValues = Record<string, string | number | boolean>;
+type FormValues = Record<string, string>;
 
 export type FormActionState<
     TFields extends FormFields = FormFields, 

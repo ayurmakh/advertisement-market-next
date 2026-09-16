@@ -10,7 +10,7 @@ type NewGoodFields = {
 type NewGoodValues = {
     title: string;
     description: string;
-    price: number;
+    price: string;
 };
 
 export type NewGoodState = FormActionState<NewGoodFields, NewGoodValues>;
