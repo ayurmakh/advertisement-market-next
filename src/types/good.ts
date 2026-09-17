@@ -10,10 +10,12 @@ export type Good = {
 
 export type GoodCreate = Omit<Good, 'id' | 'price'> & {
     priceCents: number;
+    imageUrls: string[],
 };
 
 export type GoodFetch = Omit<Good, 'userId' | 'price'> & {
     priceCents: number;
+    imageUrls: string[];
 };
 
 export type GoodDb = Omit<Good, 'userId' | 'price'> & {
@@ -23,4 +25,12 @@ export type GoodDb = Omit<Good, 'userId' | 'price'> & {
 
 export type GoodFormValues = Omit<Good, 'id' | 'userId' | 'price'> & {
     price: string;
+    images: File[],
+};
+
+export type GoodImageDb = {
+    id: number;
+    good_id: number;
+    url: string;
+    sort_order: number;
 };

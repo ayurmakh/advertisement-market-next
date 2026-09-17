@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { generateUUID } from './uuid';
+import { generateUUID } from '../helpers/uuid';
 import { createSessionDb, findSessionByIdDb } from '@/db/sessions';
 import { Session } from '@/types/session';
 import { User } from '@/types/user';

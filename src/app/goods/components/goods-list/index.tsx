@@ -1,5 +1,6 @@
 import { GoodFetch } from "@/types/good";
 import { fetchGoodsList } from "../../actions/fetch-goods-list";
+import Image from "next/image";
 
 const formatPrice = (priceCents: GoodFetch['priceCents']) =>
     new Intl.NumberFormat('en-AU', {
@@ -17,6 +18,9 @@ export default async function GoodsList() {
                     <div>{good.title}</div>
                     <div>{good.description}</div>
                     <div>{formatPrice(good.priceCents)}</div>
+                    {good.imageUrls.map((imageUrl, index) => (
+                        <Image key={index} src={imageUrl} alt={imageUrl} width={100} height={100} />
+                    ))}
                 </div>
             ))}
         </>

@@ -22,7 +22,8 @@ export default function Form<TState extends FormActionState>({ elements, formAct
                 {elements.map((element) => {
                     switch (element.uiType) {
                         case 'input':
-                        case 'inputNumber': {
+                        case 'inputNumber':
+                        case 'file': {
                             const inputProps: InputProps = {
                                 ...element,
                                 additionalClasses: [...(element.additionalClasses ?? []), styles.gridField],

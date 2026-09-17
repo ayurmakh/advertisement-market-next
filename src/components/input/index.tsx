@@ -11,10 +11,12 @@ export type InputProps = {
     additionalClasses?: string[];
     min?: string;
     step?: string;
+    accept?: string;
+    multiple?: boolean;
 };
 
 export type UiElementInput = Omit<InputProps & {
-    uiType: typeof UI_TYPE.input | typeof UI_TYPE.inputNumber;
+    uiType: typeof UI_TYPE.input | typeof UI_TYPE.inputNumber | typeof UI_TYPE.file;
 }, 'defaultValue' | 'error'>;
 
 export default function Input({
@@ -26,7 +28,9 @@ export default function Input({
     error,
     additionalClasses,
     min,
-    step
+    step,
+    accept,
+    multiple,
 }: InputProps) {
     return (
         <div className={`${styles.inputWrapper} ${(additionalClasses ?? []).join(' ')}`}>
@@ -39,6 +43,8 @@ export default function Input({
                 defaultValue={defaultValue}
                 min={min}
                 step={step}
+                accept={accept}
+                multiple={multiple}
             />
             <span className={styles.error}>{error}</span>
         </div>
