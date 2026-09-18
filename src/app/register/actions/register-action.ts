@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { RegisterState } from '../types';
 import { createUserDb } from '@/db/users';
 import { validate } from '../lib/validation';
-import { UserRegister } from '@/types/user';
+import { UserForm, UserRegister } from '@/types/user';
 import { FormAction } from '@/types/ui';
 import { getFormField } from '@/helpers/getFormField';
 
@@ -24,26 +24,37 @@ const mapError = (error: DbError): RegisterState['fields'] => {
     }
 };
 
+const toRegister = (userForm: UserForm): UserRegister => ({
+    email: userForm.email,
+    password: userForm.password,
+    first_name: userForm.firstName,
+    second_name: userForm.secondName,
+});
+
 export const registerAction: FormAction<RegisterState> = async (_previousState, actionPayload) => {
-    const credentials: UserRegister = {
+    const userForm: UserForm = {
         email: getFormField(actionPayload, 'email'),
         password: getFormField(actionPayload, 'password'),
+        firstName: getFormField(actionPayload, 'firstName'),
+        secondName: getFormField(actionPayload, 'secondName'),
     }
 
-    const validationErrors = validate(credentials);
+    const validationErrors = validate(userForm);
     
     if (validationErrors) {
         return {
             success: false,
             fields: validationErrors,
             values: {
-                ...credentials,
+                ...userForm,
             },
         }
     }
 
+    const userRegister = toRegister(userForm);
+
     try {
-        await createUserDb(credentials);
+        await createUserDb(userRegister);
     } catch(error) {
         console.log(`Register error: ${error}`)
         return {
@@ -52,7 +63,7 @@ export const registerAction: FormAction<RegisterState> = async (_previousState, 
                 ...mapError(error as DbError),
             },
             values: {
-                ...credentials,
+                ...userForm,
             },
         };
     }

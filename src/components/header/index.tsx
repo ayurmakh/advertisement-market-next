@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import useHeader from './useHeader';
 import { User } from '@/types/user';
-import { logout } from './logout';
+import Dropdown from '../user-button';
 
 type HeaderProps = {
     user: User | null;
@@ -13,7 +13,8 @@ type HeaderProps = {
 
 export default function Header({ user }: HeaderProps) {
     const pathname = usePathname() ?? '';
-    const { links } = useHeader(user);
+    const isLoggedIn = !!user;
+    const { links } = useHeader(isLoggedIn);
 
     return (
         <nav className={styles.header}>
@@ -33,8 +34,9 @@ export default function Header({ user }: HeaderProps) {
                     </Link>
                 );
             })}
-            {user?.email}
-            {user && <span className={styles.logoutButton} onClick={logout}>Logout</span>}
+            {isLoggedIn && <Dropdown
+                {...user}
+            />}
         </nav>
     );
 }

@@ -1,11 +1,19 @@
 import { RegisterState } from '../types';
-import { UserRegister } from '@/types/user';
+import { UserForm } from '@/types/user';
 
-export const validate = ({ email, password }: UserRegister): RegisterState['fields'] => {
+export const validate = ({ email, password, firstName, secondName }: UserForm): RegisterState['fields'] => {
     const fields: RegisterState['fields'] = {};
 
     if (!email.includes('@')) {
         fields.email = 'Invalid email address';
+    }
+
+    if (password.length < 8) {
+        fields.password = 'Password must be at least 8 characters';
+    }
+
+    if (password.length < 8) {
+        fields.password = 'Password must be at least 8 characters';
     }
 
     if (password.length < 8) {

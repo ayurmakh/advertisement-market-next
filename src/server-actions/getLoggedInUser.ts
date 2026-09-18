@@ -2,9 +2,9 @@
 
 import { findUserByIdDb } from "@/db/users";
 import { getUserId } from "@/lib/session";
-import { User } from "@/types/user";
+import { UserFetch } from "@/types/user";
 
-export default async function getLoggedInUser(): Promise<User | null> {
+export default async function getLoggedInUser(): Promise<UserFetch | null> {
     try {
         const userId = await getUserId();
 

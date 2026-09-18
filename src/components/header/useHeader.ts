@@ -1,26 +1,24 @@
-import { User } from "@/types/user";
-
 type Link = {
     href: string;
     text: string;
     isLastOnLeft?: boolean;
 }
 
-export default function useHeader(user: User | null) {
-    const isLoggedIn = !!user;
-
+export default function useHeader(isLoggedIn: boolean) {
     const links: Link[] = [
         {
             href: '/',
             text: 'Home',
-        },
-        {
-            href: '/goods',
-            text: 'Goods',
-            isLastOnLeft: true,
+            isLastOnLeft: !isLoggedIn,
         },
         ...(isLoggedIn
-            ? []
+            ? [
+                {
+                    href: '/goods',
+                    text: 'My Goods',
+                    isLastOnLeft: true,
+                },
+            ]
             : [
                 {
                     href: '/login',

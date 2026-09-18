@@ -1,25 +1,18 @@
 import { pool } from "@/lib/pool";
-import { User, UserLogin, UserRegister } from "@/types/user";
+import { UserDb, UserFetch, UserLogin, UserRegister } from "@/types/user";
 
-type UserDb = {
-    id: number;
-    email: string;
-    first_name?: string;
-    second_name?: string;
-}
-
-const toUser = (userDb: UserDb): User => ({
+const toUser = (userDb: UserDb): UserFetch => ({
     id: userDb.id,
     email: userDb.email,
     firstName: userDb.first_name,
     secondName: userDb.second_name,
 });
 
-export const createUserDb = async ({ email, password }: UserRegister) => {
-    const text = 'INSERT INTO users(email, password) VALUES($1, $2) RETURNING id';
-    const values = [email, password];
+export const createUserDb = async ({ email, password, first_name, second_name }: UserRegister) => {
+    const text = 'INSERT INTO users(email, password, first_name, second_name) VALUES($1, $2, $3, $4) RETURNING id';
+    const values = [email, password, first_name, second_name];
 
-    const queryResult = await pool.query<{ id: User['id'] }>(text, values);
+    const queryResult = await pool.query<{ id: UserDb['id'] }>(text, values);
 
     if (!queryResult.rows[0]) {
         throw new Error('User wasn\'t created');
@@ -29,7 +22,7 @@ export const createUserDb = async ({ email, password }: UserRegister) => {
 };
 
 export const findUserByIdDb = async (userId: number) => {
-    const text = 'SELECT id, email FROM users WHERE id = $1';
+    const text = 'SELECT id, email, first_name, second_name FROM users WHERE id = $1';
     const values = [userId];
 
     const queryResult = await pool.query<UserDb>(text, values);
@@ -38,10 +31,10 @@ export const findUserByIdDb = async (userId: number) => {
 };
 
 export const findUserByCredentialsDb = async ({ email, password }: UserLogin) => {
-    const text = 'SELECT id, email FROM users WHERE email = $1 AND password = $2;';
+    const text = 'SELECT id, email, first_name, second_name FROM users WHERE email = $1 AND password = $2;';
     const values = [email, password];
 
-    const queryResult = await pool.query<User>(text, values);
+    const queryResult = await pool.query<UserDb>(text, values);
 
     return queryResult.rows[0] ? toUser(queryResult.rows[0]) : null;
 };

@@ -16,6 +16,8 @@ type RegisterFormProps = {
 const elements: UiElement[] = [
     { uiType: UI_TYPE.input, type: 'text', name: 'email', label: 'Email' },
     { uiType: UI_TYPE.input, type: 'password', name: 'password', label: 'Password' },
+    { uiType: UI_TYPE.input, type: 'text', name: 'firstName', label: 'First Name' },
+    { uiType: UI_TYPE.input, type: 'text', name: 'secondName', label: 'Second Name' },
 ];
 
 export default function RegisterForm({ formAction }: RegisterFormProps) {
